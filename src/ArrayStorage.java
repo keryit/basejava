@@ -3,45 +3,41 @@
  */
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
-    private int count = 0;
+    private int count;
 
     void clear() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null)
-                break;
+        for (int i = 0; i < count; i++) {
             storage[i] = null;
             count = 0;
         }
     }
 
     void save(Resume resume) {
-        if (storage[count] == null)
             storage[count] = resume;
         count++;
 
     }
 
     Resume get(String uuid) {
-        for (Resume aStorage : storage) {
-            if (aStorage != null && uuid.equals(aStorage.uuid))
-                return aStorage;
+        for (int i =0; i < count; i++) {
+            if (uuid.equals(storage[i].uuid)) {
+                return storage[i];
+            }
         }
         return null;
     }
 
     void delete(String uuid) {
         int deletedIndex = 0;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null && storage[i].uuid.equals(uuid)) {
+        for (int i = 0; i < count; i++) {
+            if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
                 count--;
                 deletedIndex = i;
             }
         }
 
-        for (int i = deletedIndex; i < storage.length - 1; i++) {
-            if (storage[i + 1] == null)
-                break;
+        for (int i = deletedIndex; i < count; i++) {
             Resume tmp = storage[i];
             storage[i] = storage[i + 1];
             storage[i + 1] = tmp;
@@ -53,11 +49,8 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] res = new Resume[size()];
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null)
-                break;
-
+        Resume[] res = new Resume[count];
+        for (int i = 0; i < count; i++) {
             res[i] = storage[i];
         }
         return res;
@@ -65,13 +58,6 @@ public class ArrayStorage {
 
     int size() {
 
-        int countSize = 0;
-        for (Resume aStorage : storage) {
-            if (aStorage == null)
-                break;
-
-            countSize++;
-        }
-        return countSize;
+        return count;
     }
 }
