@@ -22,7 +22,7 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r3);
 
         ARRAY_STORAGE.update(r2);
-        System.out.println("Resume with uuid " + r2.getUuid() + " is updated");
+        System.out.println("Resume with uuid = " + r2.getUuid() + " is updated");
         printAll();
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));

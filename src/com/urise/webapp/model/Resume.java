@@ -6,6 +6,10 @@ import java.util.Objects;
  * Initial resume class
  */
 public class Resume {
+
+    // Unique identifier
+    private String uuid;
+
     public String getUuid() {
         return uuid;
     }
@@ -13,9 +17,6 @@ public class Resume {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
-
-    // Unique identifier
-    private String uuid;
 
     @Override
     public String toString() {
