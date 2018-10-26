@@ -18,9 +18,8 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        if (resume.equals(storage[getIdResumeIfPresent(resume.getUuid())])) {
+        if (getIndex(resume.getUuid()) >= 0) {
             System.out.println("Warning: The resume already exist in the storage with uuid = " + resume.getUuid());
-
         } else if (count >= storage.length) {
             System.out.println("ERROR: The array storage is full!!!");
         } else {
@@ -30,28 +29,31 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (!resume.equals(storage[getIdResumeIfPresent(resume.getUuid())])) {
+        int index = getIndex(resume.getUuid());
+        if (index < 0) {
             System.out.println("ERROR: You tried to update not existing resume in the storage with uuid = " + resume);
         } else {
-            storage[getIdResumeIfPresent(resume.getUuid())] = resume;
+            storage[index] = resume;
         }
     }
 
     public Resume get(String uuid) {
-        if (!uuid.equals(storage[getIdResumeIfPresent(uuid)].getUuid())) {
+        int index = getIndex(uuid);
+        if (index < 0) {
             System.out.println("ERROR: You tried to get not existing resume in storage with uuid = " + uuid);
             return null;
         }
-        return storage[getIdResumeIfPresent(uuid)];
+        return storage[index];
     }
 
     public void delete(String uuid) {
+        int index = getIndex(uuid);
         if (count == 0) {
             System.out.println("ERROR: You tried to delete from the empty storage!");
-        } else if (!uuid.equals(storage[getIdResumeIfPresent(uuid)].getUuid())) {
+        } else if (index < 0) {
             System.out.println("ERROR: You tried to delete not existing resume with uuid = " + uuid);
         } else {
-            storage[getIdResumeIfPresent(uuid)] = storage[count - 1];
+            storage[index] = storage[count - 1];
             storage[count - 1] = null;
             count--;
         }
@@ -70,13 +72,12 @@ public class ArrayStorage {
         return count;
     }
 
-    private int getIdResumeIfPresent(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < count; i++) {
             if (uuid.equals(storage[i].getUuid()))
                 return i;
         }
-        return 0;
+        return -1;
     }
-
 }
 
