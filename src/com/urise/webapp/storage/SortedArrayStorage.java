@@ -12,7 +12,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         if (numElements > 0) {
             System.arraycopy(storage, index + 1, storage, index, numElements);
         }
-        storage[size - 1] = null;
     }
 
     @Override

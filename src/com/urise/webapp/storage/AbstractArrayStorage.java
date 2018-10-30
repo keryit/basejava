@@ -31,6 +31,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("ERROR: You tried to delete not existing resume with uuid = " + uuid);
         } else {
             deleteAndMove(index);
+            storage[size - 1] = null;
             size--;
         }
     }
