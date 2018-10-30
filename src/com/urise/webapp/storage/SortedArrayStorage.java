@@ -10,7 +10,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     protected void deleteAndMove(int index) {
        int numElements = size - index -1;
        if (numElements > 0){
-           System.arraycopy(storage, index + 1, storage, index, numElements);
+           System.arraycopy(storage, index +1, storage, index, size - numElements);
        }
     }
 
