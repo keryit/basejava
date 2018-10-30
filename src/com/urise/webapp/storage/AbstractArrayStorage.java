@@ -4,11 +4,17 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements IStorage {
+public abstract class AbstractArrayStorage implements Storage {
 
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
+
+    protected abstract void deleteAndMove(int index);
+
+    protected abstract void saveByIndex(Resume resume, int index);
+
+    protected abstract int getIndex(String uuid);
 
     @Override
     public void clear() {
@@ -24,11 +30,9 @@ public abstract class AbstractArrayStorage implements IStorage {
         } else if (index < 0) {
             System.out.println("ERROR: You tried to delete not existing resume with uuid = " + uuid);
         } else {
-            deleteAndMove(uuid, index);
+            deleteAndMove(index);
         }
     }
-
-    protected abstract void deleteAndMove(String uuid, int index);
 
     @Override
     public void save(Resume resume) {
@@ -41,8 +45,6 @@ public abstract class AbstractArrayStorage implements IStorage {
             saveByIndex(resume, index);
         }
     }
-
-    protected abstract void saveByIndex(Resume resume, int index);
 
     @Override
     public int size() {
@@ -58,8 +60,6 @@ public abstract class AbstractArrayStorage implements IStorage {
         }
         return storage[index];
     }
-
-    protected abstract int getIndex(String uuid);
 
     /**
      * @return array, contains only Resumes in storage (without null)
