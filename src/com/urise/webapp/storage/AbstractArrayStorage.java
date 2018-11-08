@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -26,9 +29,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (size == 0) {
-            System.out.println("ERROR: You tried to delete from the empty storage!");
+            throw new StorageException("ERROR: You tried to delete from the empty storage!", uuid);
         } else if (index < 0) {
-            System.out.println("ERROR: You tried to delete not existing resume with uuid = " + uuid);
+            throw new NotExistStorageException(uuid);
         } else {
             deleteAndMove(index);
             storage[size - 1] = null;
@@ -40,9 +43,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
-            System.out.println("Warning: The resume already exist in the storage with uuid = " + resume.getUuid());
+            throw new ExistStorageException("Warning: The resume already exist in the storage with uuid = " + resume.getUuid());
         } else if (size >= STORAGE_LIMIT) {
-            System.out.println("ERROR: The array storage is full!!!");
+            throw new StorageException("ERROR: The array storage is full!!!", resume.getUuid());
         } else {
             saveByIndex(resume, index);
             size++;
@@ -58,8 +61,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -76,7 +78,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index < 0) {
-            System.out.println("ERROR: You tried to update not existing resume in the storage with uuid = " + resume);
+            throw new NotExistStorageException(resume.getUuid());
         } else {
             storage[index] = resume;
         }
