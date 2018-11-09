@@ -93,13 +93,14 @@ public abstract class AbstractArrayStorageTest {
     public void getAll() {
         Resume[] res = {RESUME_1, RESUME_2, RESUME_3};
         Assert.assertArrayEquals(res, storage.getAll());
-        Assert.assertEquals(res.length, storage.size());
+        Assert.assertEquals(res.length, storage.getAll().length);
     }
 
     @Test
     public void update() {
-        storage.update(RESUME_1);
-        Assert.assertSame(RESUME_1, storage.get(RESUME_1.getUuid()));
+        Resume newResume = new Resume(UUID_1);
+        storage.update(newResume);
+        Assert.assertSame(newResume, storage.get(RESUME_1.getUuid()));
     }
 
     @Test(expected = NotExistStorageException.class)
