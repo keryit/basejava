@@ -1,52 +1,55 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private ArrayList<Resume> list = new ArrayList<>();
+    private List<Resume> list = new ArrayList<>();
+
+    @Override
+    protected Resume getResume(Resume resume, Object index) {
+        return list.stream().filter
+                (list -> resume.getUuid().equals(list.getUuid())).
+                findAny().
+                orElse(null);
+    }
+
+    @Override
+    protected void saveResume(Resume resume) {
+        list.add(resume);
+    }
+
+    @Override
+    protected void deleteResume(Resume resume, Object index) {
+        list.remove(resume);
+    }
+
+    @Override
+    protected Object getIndex(Resume resume) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(resume.getUuid()))
+                return i;
+        }
+        return -1;
+    }
+
+    @Override
+    protected void updateResume(Resume resume, Object index) {
+        list.set((Integer) index, resume);
+    }
+
+    @Override
+    protected boolean isResumeExist(Resume resume) {
+        return (Integer) getIndex(resume) >= 0;
+    }
+
 
     @Override
     public void clear() {
         list.clear();
-    }
-
-    @Override
-    public void update(Resume r) {
-        if (!list.contains(r)) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-        list.set(getIndex(r.getUuid()), r);
-    }
-
-    @Override
-    public void save(Resume r) {
-        if (list.contains(r)) {
-            throw new ExistStorageException(r.getUuid());
-        }
-        list.add(r);
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        Resume r = new Resume(uuid);
-        if (!list.contains(r)) {
-            throw new NotExistStorageException(uuid);
-        }
-        return list.get(getIndex(uuid));
-    }
-
-    @Override
-    public void delete(String uuid) {
-        Resume r = new Resume(uuid);
-        if (!list.contains(r)) {
-            throw new NotExistStorageException(uuid);
-        }
-        list.remove(r);
     }
 
     @Override
@@ -57,10 +60,5 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return list.size();
-    }
-
-    private int getIndex(String uuid) {
-        Resume r = new Resume(uuid);
-        return list.indexOf(r);
     }
 }

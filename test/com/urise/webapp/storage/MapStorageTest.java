@@ -7,7 +7,7 @@ import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapStorageTest extends AbstractStorageTest {
@@ -26,7 +26,7 @@ public class MapStorageTest extends AbstractStorageTest {
     public void update() {
         Resume newResume = new Resume(UUID_1);
         storage.update(newResume);
-        Assert.assertSame(newResume, storage.get(newResume.getUuid()));
+        Assert.assertSame(newResume, storage.get(newResume));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -38,7 +38,7 @@ public class MapStorageTest extends AbstractStorageTest {
     public void save() {
         storage.save(TEST_RESUME);
         Assert.assertEquals(4, storage.size());
-        Assert.assertEquals(TEST_RESUME, storage.get(TEST_RESUME.getUuid()));
+        Assert.assertEquals(TEST_RESUME, storage.get(TEST_RESUME));
     }
 
     @Test(expected = ExistStorageException.class)
@@ -48,35 +48,35 @@ public class MapStorageTest extends AbstractStorageTest {
 
     @Test
     public void get() {
-        Assert.assertEquals(RESUME_2, storage.get(RESUME_2.getUuid()));
+        Assert.assertEquals(RESUME_2, storage.get(RESUME_2));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() {
-        storage.get(UUID_4);
+        storage.get(TEST_RESUME);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        storage.delete(UUID_2);
+        storage.delete(RESUME_2);
         Assert.assertEquals(2, storage.size());
-        storage.get(UUID_2);
+        storage.get(RESUME_2);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExistResume() {
-        storage.delete(UUID_4);
+        storage.delete(TEST_RESUME);
     }
 
     @Test(expected = StorageException.class)
     public void deleteFromEmpty() {
         storage.clear();
-        storage.delete(UUID_4);
+        storage.delete(TEST_RESUME);
     }
 
     @Test
     public void getAll() {
-        Map<String, Resume> map = new HashMap<>();
+        Map<String, Resume> map = new LinkedHashMap<>();
         map.put(UUID_1, RESUME_1);
         map.put(UUID_2, RESUME_2);
         map.put(UUID_3, RESUME_3);

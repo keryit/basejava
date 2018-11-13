@@ -3,8 +3,6 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 import org.junit.Before;
 
-import static org.junit.Assert.*;
-
 public class AbstractStorageTest {
 
     protected static final String UUID_1 = "uuid1";
@@ -29,5 +27,4 @@ public class AbstractStorageTest {
         storage.save(RESUME_2);
         storage.save(RESUME_3);
     }
-
 }

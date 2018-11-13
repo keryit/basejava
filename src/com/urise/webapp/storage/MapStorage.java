@@ -1,56 +1,49 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 public class MapStorage extends AbstractStorage {
 
-    private HashMap<String, Resume> map = new HashMap<>();
+    private Map<String, Resume> map = new LinkedHashMap<>();
+
+    @Override
+    protected Resume getResume(Resume resume, Object index) {
+        return map.get(resume.getUuid());
+    }
+
+    @Override
+    protected void saveResume(Resume resume) {
+        map.put(resume.getUuid(), resume);
+    }
+
+    @Override
+    protected void deleteResume(Resume resume, Object index) {
+        map.remove(resume.getUuid());
+    }
+
+    @Override
+    protected Object getIndex(Resume resume) {
+        return map.entrySet().stream()
+                .filter(entry -> entry.getKey().equals(resume.getUuid())).findAny();
+    }
+
+    @Override
+    protected void updateResume(Resume resume, Object index) {
+        map.put(resume.getUuid(), resume);
+    }
+
+    @Override
+    protected boolean isResumeExist(Resume resume) {
+        return map.containsValue(resume);
+    }
 
     @Override
     public void clear() {
         map.clear();
-    }
-
-    @Override
-    public void update(Resume r) {
-        if (!map.containsValue(r)) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-        map.put(r.getUuid(), r);
-    }
-
-    @Override
-    public void save(Resume r) {
-        if (map.containsValue(r)) {
-            throw new ExistStorageException(r.getUuid());
-        }
-        map.put(r.getUuid(), r);
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        if (!map.containsValue(new Resume(uuid))) {
-            throw new NotExistStorageException(uuid);
-        }
-        return map.get(uuid);
-    }
-
-    @Override
-    public void delete(String uuid) {
-        Resume r = new Resume(uuid);
-        if (map.size() == 0) {
-            throw new StorageException("ERROR: You tried to delete from the empty storage!", uuid);
-        }
-        if (!map.containsValue(r)) {
-            throw new NotExistStorageException(uuid);
-        }
-        map.remove(uuid, r);
     }
 
     @Override
