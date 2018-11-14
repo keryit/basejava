@@ -26,12 +26,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object getIndex(Resume resume) {
-        for (Map.Entry<String, Resume> pair : map.entrySet()) {
-            if (resume.equals(pair.getValue())) {
-                return pair.getKey();
-            }
-        }
-        return null;
+        return resume.getUuid();
     }
 
     @Override
@@ -51,7 +46,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return (Resume[]) map.values().toArray(new Resume[0]);
+        return map.values().toArray(new Resume[0]);
     }
 
     @Override

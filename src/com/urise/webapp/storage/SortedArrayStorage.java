@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void deleteAndMove(int index) {
+    protected void deleteByIndex(int index) {
         int numElements = size - index -1;
         if (numElements > 0) {
             System.arraycopy(storage, index + 1, storage, index, numElements);

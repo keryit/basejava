@@ -11,7 +11,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    protected abstract void deleteAndMove(int index);
+    protected abstract void deleteByIndex(int index);
 
     protected abstract void saveByIndex(Resume resume, int index);
 
@@ -27,7 +27,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (size == 0) {
             throw new StorageException("ERROR: You tried to delete from the empty storage!", new Resume());
         } else {
-            deleteAndMove((Integer) index);
+            deleteByIndex((Integer) index);
             storage[size - 1] = null;
             size--;
         }
