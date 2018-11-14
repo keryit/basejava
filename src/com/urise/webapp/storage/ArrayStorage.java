@@ -20,7 +20,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected Object getIndex(Resume resume) {
         for (int i = 0; i < size; i++) {
-            if (resume.getUuid().equals(storage[i].getUuid()))
+            if (resume.equals(storage[i]))
                 return i;
         }
         return -1;

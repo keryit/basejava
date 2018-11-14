@@ -5,30 +5,33 @@ import com.urise.webapp.model.Resume;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
 public class MapStorage extends AbstractStorage {
 
     private Map<String, Resume> map = new LinkedHashMap<>();
 
     @Override
-    protected Resume getResume(Resume resume, Object index) {
-        return map.get(resume.getUuid());
+    protected Resume getResume(Object index) {
+        return map.get((String) index);
     }
 
     @Override
-    protected void saveResume(Resume resume) {
+    protected void saveResume(Resume resume, Object index) {
         map.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void deleteResume(Resume resume, Object index) {
-        map.remove(resume.getUuid());
+    protected void deleteResume(Object index) {
+        map.remove((String) index);
     }
 
     @Override
     protected Object getIndex(Resume resume) {
-        return map.entrySet().stream()
-                .filter(entry -> entry.getKey().equals(resume.getUuid())).findAny();
+        for (Map.Entry<String, Resume> pair : map.entrySet()) {
+            if (resume.equals(pair.getValue())) {
+                return pair.getKey();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -37,8 +40,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist(Resume resume) {
-        return map.containsValue(resume);
+    protected boolean isResumeExist(Object index) {
+        return map.containsKey((String) index);
     }
 
     @Override

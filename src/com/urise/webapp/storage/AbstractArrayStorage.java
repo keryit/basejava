@@ -1,6 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -24,11 +23,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void deleteResume(Resume resume, Object index) {
+    public void deleteResume(Object index) {
         if (size == 0) {
-            throw new StorageException("ERROR: You tried to delete from the empty storage!", resume);
-        }
-        else {
+            throw new StorageException("ERROR: You tried to delete from the empty storage!", new Resume());
+        } else {
             deleteAndMove((Integer) index);
             storage[size - 1] = null;
             size--;
@@ -36,7 +34,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void saveResume(Resume resume) {
+    public void saveResume(Resume resume, Object index) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("ERROR: The array storage is full!!!", resume);
         } else {
@@ -51,7 +49,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume getResume(Resume resume, Object index) {
+    public Resume getResume(Object index) {
         return storage[(Integer) index];
     }
 
@@ -66,8 +64,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isResumeExist(Resume resume) {
-        int index = (Integer) getIndex(resume);
-        return index >= 0;
+    protected boolean isResumeExist(Object index) {
+        return (Integer) index >= 0;
     }
 }
