@@ -2,60 +2,57 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
 
-    private List<Resume> list = new ArrayList<>();
+    private Map<String, Resume> map = new LinkedHashMap<>();
 
     @Override
     protected Resume getResume(Object index) {
-        return list.get((Integer) index);
+        return map.get((String) index);
     }
 
     @Override
     protected void saveResume(Resume resume, Object index) {
-        list.add(resume);
+        map.put(resume.getUuid(), resume);
     }
 
     @Override
     protected void deleteResume(Object index) {
-        int del = (Integer) index;
-        list.remove(del);
+        map.remove((String) index);
     }
 
     @Override
     protected Object getIndex(Resume resume) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).equals(resume))
-                return i;
-        }
-        return -1;
+        return resume.getUuid();
     }
 
     @Override
     protected void updateResume(Resume resume, Object index) {
-        list.set((Integer) index, resume);
+        map.put((String) index, resume);
     }
 
     @Override
     protected boolean isResumeExist(Object index) {
-        return (Integer) index >= 0;
+        return map.containsKey((String) index);
     }
 
     @Override
     public void clear() {
-        list.clear();
+        map.clear();
     }
 
     @Override
-    public List<Resume> getAll() {
-        return list;
+    public List<Resume> getAll(){
+        return Arrays.asList(map.values().toArray(new Resume[0]));
     }
 
     @Override
     public int size() {
-        return list.size();
+        return map.size();
     }
 }

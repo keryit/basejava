@@ -6,6 +6,9 @@ import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListStorageTest extends AbstractStorageTest {
 
     public ListStorageTest() {
@@ -20,7 +23,7 @@ public class ListStorageTest extends AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_1);
+        Resume newResume = new Resume(UUID_1, "Name1");
         storage.update(newResume);
         Assert.assertSame(newResume, storage.get(newResume));
     }
@@ -66,9 +69,12 @@ public class ListStorageTest extends AbstractStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] res = {RESUME_1, RESUME_2, RESUME_3};
-        Assert.assertArrayEquals(res, storage.getAll());
-        Assert.assertEquals(res.length, storage.getAll().length);
+        List<Resume> list = new ArrayList<Resume>();
+        list.add(RESUME_1);
+        list.add(RESUME_2);
+        list.add(RESUME_3);
+        Assert.assertEquals(list, storage.getAll());
+        Assert.assertEquals(list.size(), storage.getAll().size());
     }
 
     @Test

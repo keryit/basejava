@@ -7,13 +7,14 @@ import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MapStorageTest extends AbstractStorageTest {
+public class MapUuidStorageTest extends AbstractStorageTest {
 
-    public MapStorageTest() {
-        super(new MapStorage());
+    public MapUuidStorageTest() {
+        super(new MapUuidStorage());
     }
 
     @Test
@@ -24,7 +25,7 @@ public class MapStorageTest extends AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_1);
+        Resume newResume = new Resume(UUID_1, "Name1");
         storage.update(newResume);
         Assert.assertSame(newResume, storage.get(newResume));
     }
@@ -48,7 +49,7 @@ public class MapStorageTest extends AbstractStorageTest {
 
     @Test
     public void get() {
-        Assert.assertEquals(RESUME_2, storage.get(RESUME_2));
+        Assert.assertEquals(RESUME_2.getUuid(), storage.get(RESUME_2).getUuid());
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -80,8 +81,8 @@ public class MapStorageTest extends AbstractStorageTest {
         map.put(UUID_1, RESUME_1);
         map.put(UUID_2, RESUME_2);
         map.put(UUID_3, RESUME_3);
-        Assert.assertArrayEquals(map.values().toArray(), storage.getAll());
-        Assert.assertEquals(map.size(), storage.getAll().length);
+        Assert.assertEquals(Arrays.asList(map.values().toArray(new Resume[0])), storage.getAll());
+        Assert.assertEquals(map.size(), storage.getAll().size());
     }
 
     @Test

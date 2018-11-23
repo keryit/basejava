@@ -1,17 +1,16 @@
 package com.urise.webapp.exception;
 
-import com.urise.webapp.model.Resume;
-
 public class StorageException extends RuntimeException {
 
-    private final Resume resume;
+    private final String uuid;
 
-    public StorageException(String message, Resume resume) {
+    public StorageException(String message, String uuid) {
         super(message);
-        this.resume = resume;
+        this.uuid = uuid;
+
     }
 
     public String getUuid() {
-        return resume.getUuid();
+        return uuid;
     }
 }

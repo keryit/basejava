@@ -8,16 +8,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractArrayStorageTest {
 
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final Resume RESUME_2 = new Resume(UUID_2, "Name2");
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_3 = new Resume(UUID_3);
+    private static final Resume RESUME_3 = new Resume(UUID_3, "Name3");
     private static final String UUID_4 = "uuid4_new";
-    private static final Resume TEST_RESUME = new Resume(UUID_4);
+    private static final Resume TEST_RESUME = new Resume(UUID_4, "Name4");
     private Storage storage;
 
     protected AbstractArrayStorageTest(Storage storage) {
@@ -71,7 +74,7 @@ public abstract class AbstractArrayStorageTest {
         } catch (StorageException e) {
             Assert.fail("Something was wrong during adding to storage!");
         }
-        storage.save(new Resume());
+        storage.save(new Resume("NewResumeName"));
     }
 
     @Test
@@ -91,14 +94,17 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] res = {RESUME_1, RESUME_2, RESUME_3};
-        Assert.assertArrayEquals(res, storage.getAll());
-        Assert.assertEquals(res.length, storage.getAll().length);
+        List<Resume> list = new ArrayList<Resume>();
+        list.add(RESUME_1);
+        list.add(RESUME_2);
+        list.add(RESUME_3);
+        Assert.assertEquals(list, storage.getAll());
+        Assert.assertEquals(list.size(), storage.getAll().size());
     }
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_1);
+        Resume newResume = new Resume(UUID_1, "Name1");
         storage.update(newResume);
         Assert.assertSame(newResume, storage.get(newResume));
     }

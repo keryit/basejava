@@ -4,6 +4,7 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
@@ -25,7 +26,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     public void deleteResume(Object index) {
         if (size == 0) {
-            throw new StorageException("ERROR: You tried to delete from the empty storage!", new Resume());
+            throw new StorageException("ERROR: You tried to delete from the empty storage!", storage[(Integer) index].getUuid());
         } else {
             deleteByIndex((Integer) index);
             storage[size - 1] = null;
@@ -36,7 +37,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     public void saveResume(Resume resume, Object index) {
         if (size >= STORAGE_LIMIT) {
-            throw new StorageException("ERROR: The array storage is full!!!", resume);
+            throw new StorageException("ERROR: The array storage is full!!!", resume.getUuid());
         } else {
             saveByIndex(resume, (Integer) getIndex(resume));
             size++;
@@ -54,8 +55,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size());
+    public List<Resume> getAll() {
+        List<Resume> list = Arrays.asList(storage);
+        return list.subList(0, size);
     }
 
     @Override
