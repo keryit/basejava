@@ -16,7 +16,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void saveByIndex(Resume resume, int index);
 
-
     @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -39,7 +38,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("ERROR: The array storage is full!!!", resume.getUuid());
         } else {
-            saveByIndex(resume, (Integer) getIndex(resume));
+            saveByIndex(resume, (Integer) getIndex(resume.getUuid()));
             size++;
         }
     }

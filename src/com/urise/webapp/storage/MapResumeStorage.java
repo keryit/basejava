@@ -2,15 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapResumeStorage extends AbstractStorage {
 
-    private Map<String, Resume> map = new LinkedHashMap<>();
-
+    private Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected Resume getResume(Object index) {
@@ -28,8 +24,8 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getIndex(Resume resume) {
-        return map.get(resume.getUuid());
+    protected Object getIndex(String uuid) {
+        return map.get(uuid);
     }
 
     @Override
@@ -49,7 +45,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getAll() {
-        return Arrays.asList(map.values().toArray(new Resume[0]));
+        return new ArrayList<>(map.values());
     }
 
     @Override

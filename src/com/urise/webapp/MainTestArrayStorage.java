@@ -25,12 +25,12 @@ public class MainTestArrayStorage {
         System.out.println("Resume with uuid = " + r2.getUuid() + " is updated");
         printAll();
 
-        System.out.println("Get r1: " + ARRAY_STORAGE.get(r1));
+        System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
-        System.out.println("Get dummy: " + ARRAY_STORAGE.get(r4));
+        System.out.println("Get dummy: " + ARRAY_STORAGE.get(r4.getUuid()));
 
         printAll();
-        ARRAY_STORAGE.delete(r1);
+        ARRAY_STORAGE.delete(r1.getUuid());
         printAll();
         ARRAY_STORAGE.clear();
         printAll();

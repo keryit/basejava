@@ -16,12 +16,12 @@ public class MapResumeStorageTest extends AbstractStorageTest {
 
     @Test
     public void getResume() {
-        Assert.assertEquals(RESUME_1, storage.get(RESUME_1));
+        Assert.assertEquals(RESUME_1, storage.get(RESUME_1.getUuid()));
     }
 
     @Test
     public void deleteResume(){
-        storage.delete(RESUME_1);
+        storage.delete(RESUME_1.getUuid());
         Assert.assertEquals(2, storage.size());
     }
 }

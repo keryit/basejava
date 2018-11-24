@@ -44,11 +44,11 @@ public class MainArray {
                     break;
                 case "delete":
                     r = new Resume(uuid);
-                    ARRAY_STORAGE.delete(r);
+                    ARRAY_STORAGE.delete(r.getUuid());
                     printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(r));
+                    System.out.println(ARRAY_STORAGE.get(r.getUuid()));
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();
