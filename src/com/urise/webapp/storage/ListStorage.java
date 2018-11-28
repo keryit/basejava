@@ -2,9 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -12,23 +10,23 @@ public class ListStorage extends AbstractStorage {
     private List<Resume> list = new ArrayList<>();
 
     @Override
-    protected Resume getResume(Object index) {
-        return list.get((Integer) index);
+    protected Resume getResume(Object searchKey) {
+        return list.get((Integer) searchKey);
     }
 
     @Override
-    protected void saveResume(Resume resume, Object index) {
+    protected void saveResume(Resume resume, Object searchKey) {
         list.add(resume);
     }
 
     @Override
-    protected void deleteResume(Object index) {
-        int del = (Integer) index;
+    protected void deleteResume(Object searchKey) {
+        int del = (Integer) searchKey;
         list.remove(del);
     }
 
     @Override
-    protected Object getIndex(String uuid) {
+    protected Object getSearchKey(String uuid) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getUuid().equals(uuid))
                 return i;
@@ -37,13 +35,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume resume, Object index) {
-        list.set((Integer) index, resume);
+    protected void updateResume(Resume resume, Object searchKey) {
+        list.set((Integer) searchKey, resume);
     }
 
     @Override
-    protected boolean isResumeExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isResumeExist(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
     @Override

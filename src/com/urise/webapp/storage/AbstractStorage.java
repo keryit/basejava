@@ -6,21 +6,21 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected abstract Resume getResume(Object index);
+    protected abstract Resume getResume(Object searchKey);
 
-    protected abstract void saveResume(Resume resume, Object index);
+    protected abstract void saveResume(Resume resume, Object searchKey);
 
-    protected abstract void deleteResume(Object index);
+    protected abstract void deleteResume(Object searchKey);
 
-    protected abstract Object getIndex(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
-    protected abstract void updateResume(Resume newResume, Object index);
+    protected abstract void updateResume(Resume newResume, Object searchKey);
 
-    protected abstract boolean isResumeExist(Object index);
+    protected abstract boolean isResumeExist(Object searchKey);
 
     @Override
     public void delete(String uuid) {
-        Object index = getIndex(uuid);
+        Object index = getSearchKey(uuid);
         if (!isResumeExist(index)) {
             throw new NotExistStorageException(uuid);
         } else {
@@ -30,7 +30,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        Object index = getIndex(resume.getUuid());
+        Object index = getSearchKey(resume.getUuid());
         if (isResumeExist(index)) {
             throw new ExistStorageException(resume.getUuid());
         } else {
@@ -40,7 +40,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        Object index = getIndex(uuid);
+        Object index = getSearchKey(uuid);
         if (!isResumeExist(index)) {
             throw new NotExistStorageException(uuid);
         }
@@ -49,7 +49,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        Object index = getIndex(resume.getUuid());
+        Object index = getSearchKey(resume.getUuid());
         if (!isResumeExist(index)) {
             throw new NotExistStorageException(resume.getUuid());
         } else {

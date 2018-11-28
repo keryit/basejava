@@ -23,22 +23,22 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void deleteResume(Object index) {
+    public void deleteResume(Object searchKey) {
         if (size == 0) {
-            throw new StorageException("ERROR: You tried to delete from the empty storage!", storage[(Integer) index].getUuid());
+            throw new StorageException("ERROR: You tried to delete from the empty storage!", storage[(Integer) searchKey].getUuid());
         } else {
-            deleteByIndex((Integer) index);
+            deleteByIndex((Integer) searchKey);
             storage[size - 1] = null;
             size--;
         }
     }
 
     @Override
-    public void saveResume(Resume resume, Object index) {
+    public void saveResume(Resume resume, Object searchKey) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("ERROR: The array storage is full!!!", resume.getUuid());
         } else {
-            saveByIndex(resume, (Integer) getIndex(resume.getUuid()));
+            saveByIndex(resume, (Integer) searchKey);
             size++;
         }
     }
@@ -49,8 +49,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume getResume(Object index) {
-        return storage[(Integer) index];
+    public Resume getResume(Object searchKey) {
+        return storage[(Integer) searchKey];
     }
 
     @Override
@@ -60,12 +60,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void updateResume(Resume resume, Object index) {
-        storage[(Integer) index] = resume;
+    public void updateResume(Resume resume, Object searchKey) {
+        storage[(Integer) searchKey] = resume;
     }
 
     @Override
-    protected boolean isResumeExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isResumeExist(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 }
