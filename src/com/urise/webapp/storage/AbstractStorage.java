@@ -4,24 +4,30 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
-public abstract class AbstractStorage implements Storage {
+import java.util.logging.Logger;
 
-    protected abstract Resume getResume(Object searchKey);
+public abstract class AbstractStorage<SK> implements Storage {
 
-    protected abstract void saveResume(Resume resume, Object searchKey);
+    private final static Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
-    protected abstract void deleteResume(Object searchKey);
+    protected abstract Resume getResume(SK searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract void saveResume(Resume resume, SK searchKey);
 
-    protected abstract void updateResume(Resume newResume, Object searchKey);
+    protected abstract void deleteResume(SK searchKey);
 
-    protected abstract boolean isResumeExist(Object searchKey);
+    protected abstract SK getSearchKey(String uuid);
+
+    protected abstract void updateResume(Resume newResume, SK searchKey);
+
+    protected abstract boolean isResumeExist(SK searchKey);
 
     @Override
     public void delete(String uuid) {
-        Object index = getSearchKey(uuid);
+        LOG.info("Delete " + uuid);
+        SK index = getSearchKey(uuid);
         if (!isResumeExist(index)) {
+            LOG.warning("Resume with uuid = " + uuid + " does not exist!");
             throw new NotExistStorageException(uuid);
         } else {
             deleteResume(index);
@@ -30,8 +36,10 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        Object index = getSearchKey(resume.getUuid());
+        LOG.info("Save " + resume);
+        SK index = getSearchKey(resume.getUuid());
         if (isResumeExist(index)) {
+            LOG.warning("Resume with uuid = " + resume.getUuid() + " already exist!");
             throw new ExistStorageException(resume.getUuid());
         } else {
             saveResume(resume, index);
@@ -40,8 +48,10 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        Object index = getSearchKey(uuid);
+        LOG.info("Get " + uuid);
+        SK index = getSearchKey(uuid);
         if (!isResumeExist(index)) {
+            LOG.warning("Resume with uuid = " + uuid + " does not exist!");
             throw new NotExistStorageException(uuid);
         }
         return getResume(index);
@@ -49,8 +59,10 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        Object index = getSearchKey(resume.getUuid());
+        LOG.info("Update " + resume);
+        SK index = getSearchKey(resume.getUuid());
         if (!isResumeExist(index)) {
+            LOG.warning("Resume - " + resume + " does not exist!");
             throw new NotExistStorageException(resume.getUuid());
         } else {
             updateResume(resume, index);

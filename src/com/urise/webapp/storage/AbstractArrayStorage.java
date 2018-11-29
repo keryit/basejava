@@ -6,7 +6,7 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -23,22 +23,22 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void deleteResume(Object searchKey) {
+    public void deleteResume(Integer searchKey) {
         if (size == 0) {
             throw new StorageException("ERROR: You tried to delete from the empty storage!", storage[(Integer) searchKey].getUuid());
         } else {
-            deleteByIndex((Integer) searchKey);
+            deleteByIndex(searchKey);
             storage[size - 1] = null;
             size--;
         }
     }
 
     @Override
-    public void saveResume(Resume resume, Object searchKey) {
+    public void saveResume(Resume resume, Integer searchKey) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("ERROR: The array storage is full!!!", resume.getUuid());
         } else {
-            saveByIndex(resume, (Integer) searchKey);
+            saveByIndex(resume, searchKey);
             size++;
         }
     }
@@ -49,8 +49,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume getResume(Object searchKey) {
-        return storage[(Integer) searchKey];
+    public Resume getResume(Integer searchKey) {
+        return storage[searchKey];
     }
 
     @Override
@@ -60,12 +60,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void updateResume(Resume resume, Object searchKey) {
-        storage[(Integer) searchKey] = resume;
+    public void updateResume(Resume resume, Integer searchKey) {
+        storage[searchKey] = resume;
     }
 
     @Override
-    protected boolean isResumeExist(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected boolean isResumeExist(Integer searchKey) {
+        return searchKey >= 0;
     }
 }
