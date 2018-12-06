@@ -1,14 +1,13 @@
 package com.urise.webapp.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MultipleTextFieldSection extends Section {
+public class MultipleTextSection extends AbstractSection {
 
-    private List<String> list = new ArrayList<>();
+    private List<String> list;
 
-    public MultipleTextFieldSection(List<String> list) {
+    public MultipleTextSection(List<String> list) {
         this.list = list;
     }
 
@@ -24,7 +23,7 @@ public class MultipleTextFieldSection extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MultipleTextFieldSection that = (MultipleTextFieldSection) o;
+        MultipleTextSection that = (MultipleTextSection) o;
         return Objects.equals(list, that.list);
     }
 
