@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class OrganizationSection extends AbstractSection {
 
-    private String nameCompany;
+    private Organization organization;
     private LocalDate startYear;
     private LocalDate endYear;
     private String title;
@@ -26,20 +26,12 @@ public class OrganizationSection extends AbstractSection {
         this.listOrganizations = listOrganizations;
     }
 
-    public OrganizationSection(String nameCompany, LocalDate startYear, LocalDate endYear, String title, String description) {
-        this.nameCompany = nameCompany;
+    public OrganizationSection(Organization organization,  LocalDate startYear, LocalDate endYear, String title, String description) {
+        this.organization = organization;
         this.startYear = startYear;
         this.endYear = endYear;
         this.title = title;
         this.description = description;
-    }
-
-    public String getNameCompany() {
-        return nameCompany;
-    }
-
-    public void setNameCompany(String nameCompany) {
-        this.nameCompany = nameCompany;
     }
 
     public LocalDate getStartYear() {
@@ -79,15 +71,18 @@ public class OrganizationSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrganizationSection that = (OrganizationSection) o;
-        return Objects.equals(nameCompany, that.nameCompany) &&
-                Objects.equals(startYear, that.startYear) &&
-                Objects.equals(endYear, that.endYear) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(description, that.description);
+        return startYear.equals(that.startYear) &&
+                endYear.equals(that.endYear) &&
+                title.equals(that.title) &&
+                Objects.equals(description, that.description) &&
+                organization.equals(that.organization) &&
+                Objects.equals(listOrganizations, that.listOrganizations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nameCompany, startYear, endYear, title, description);
+        return Objects.hash(startYear, endYear, title, description, organization, listOrganizations);
     }
+
+
 }

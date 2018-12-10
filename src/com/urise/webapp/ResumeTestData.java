@@ -51,9 +51,10 @@ public class ResumeTestData {
         mapSection.put(SectionType.QUALIFICATIONS, new MultipleTextSection(listQ));
 
         //adding experience- Organization, start year, end year, position, experience
-        OrganizationSection org = new OrganizationSection("Java Online Projects", LocalDate.of(2013, 10, 01), LocalDate.now(),
+        Organization company = new Organization("Java Online Projects");
+        OrganizationSection org = new OrganizationSection(company, LocalDate.of(2013, 10, 01), LocalDate.now(),
                 "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
-        OrganizationSection org2 = new OrganizationSection("Wrike", LocalDate.of(2014, 10, 01),
+        OrganizationSection org2 = new OrganizationSection(new Organization("Wrike"), LocalDate.of(2014, 10, 01),
                 LocalDate.of(2016, 01, 01), "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
         List<OrganizationSection> listOrganiz = new ArrayList<>();
         listOrganiz.add(org);
@@ -61,9 +62,9 @@ public class ResumeTestData {
         mapSection.put(SectionType.EXPERIENCE, new OrganizationSection(listOrganiz));
 
         //adding education
-        OrganizationSection edu1 = new OrganizationSection("Coursera", LocalDate.of(2013, 03, 01),
+        OrganizationSection edu1 = new OrganizationSection(new Organization("Coursera"), LocalDate.of(2013, 03, 01),
                 LocalDate.of(2013, 05, 01), "Functional Programming Principles in Scala\" by Martin Odersky", null);
-        OrganizationSection edu2 = new OrganizationSection("Luxoft", LocalDate.of(2011, 03, 01),
+        OrganizationSection edu2 = new OrganizationSection(new Organization("Luxoft"), LocalDate.of(2011, 03, 01),
                 LocalDate.of(2011, 04, 01), "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", null);
         List<OrganizationSection> listEducations = new ArrayList<>();
         listEducations.add(edu1);
